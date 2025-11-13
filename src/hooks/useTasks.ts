@@ -11,6 +11,8 @@ import {
 } from '@/utils/logic';
 // Local storage removed per request; keep everything in memory
 import { generateSalesTasks } from '@/utils/seed';
+import type { TaskFormValue } from '@/components/TaskForm';
+
 
 interface UseTasksState {
   tasks: Task[];
@@ -19,7 +21,7 @@ interface UseTasksState {
   derivedSorted: DerivedTask[];
   metrics: Metrics;
   lastDeleted: Task | null;
-  addTask: (task: Omit<Task, 'id'> & { id?: string }) => void;
+  addTask: (task: TaskFormValue) => void;
   updateTask: (id: string, patch: Partial<Task>) => void;
   deleteTask: (id: string) => void;
   undoDelete: () => void;
@@ -132,7 +134,7 @@ status: t.status || 'Todo',
     return { totalRevenue, totalTimeTaken, timeEfficiencyPct, revenuePerHour, averageROI, performanceGrade };
   }, [tasks]);
 
-  const addTask = useCallback((task: Omit<Task, 'id'> & { id?: string }) => {
+  const  addTask = useCallback((task: TaskFormValue) => {
     setTasks(prev => {
       const uniqueId  = task.id || `t-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
       const timeTaken = task.timeTaken <= 0 ? 1 : task.timeTaken; // auto-correct
@@ -177,7 +179,7 @@ status: t.status || 'Todo',
     setLastDeleted(null);
   }, [lastDeleted]);
 
-  return { tasks, loading, error, derivedSorted, metrics, lastDeleted, addTask, updateTask, deleteTask, undoDelete, clearLastDeleted};
+  return { tasks, loading, error, derivedSorted, metrics, lastDeleted, addTask, updateTask, deleteTask, undoDelete, clearLastDeleted };
 }
 
 

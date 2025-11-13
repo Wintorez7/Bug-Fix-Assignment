@@ -1,6 +1,7 @@
 import { createContext, useContext, ReactNode } from 'react';
 import { useTasks } from '@/hooks/useTasks';
 import { DerivedTask, Metrics, Task } from '@/types';
+import type { TaskFormValue } from '@/components/TaskForm';
 
 interface TasksContextValue {
   tasks: Task[];
@@ -9,7 +10,7 @@ interface TasksContextValue {
   derivedSorted: DerivedTask[];
   metrics: Metrics;
   lastDeleted: Task | null;
-  addTask: (task: Omit<Task, 'id'> & { id?: string }) => void;
+  addTask: (task: TaskFormValue) => void;
   updateTask: (id: string, patch: Partial<Task>) => void;
   deleteTask: (id: string) => void;
   undoDelete: () => void;
