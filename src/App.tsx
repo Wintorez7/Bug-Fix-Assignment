@@ -17,6 +17,7 @@ import {
   computeTimeEfficiency,
   computeTotalRevenue,
 } from '@/utils/logic';
+import type { TaskFormValue } from '@/components/TaskForm';
 
 function AppContent() {
   const { loading, error, derivedSorted, addTask, updateTask, deleteTask, undoDelete, lastDeleted, clearLastDeleted} = useTasksContext();
@@ -44,7 +45,7 @@ function AppContent() {
     });
   }, [derivedSorted, q, fStatus, fPriority]);
 
-  const handleAdd = useCallback((payload: Omit<Task, 'id'>) => {
+  const handleAdd = useCallback((payload: TaskFormValue) => {
     addTask(payload);
     setActivity(prev => [createActivity('add', `Added: ${payload.title}`), ...prev].slice(0, 50));
   }, [addTask, createActivity]);
