@@ -6,10 +6,12 @@ import AddIcon from '@mui/icons-material/Add';
 import { DerivedTask, Task } from '@/types';
 import TaskForm from '@/components/TaskForm';
 import TaskDetailsDialog from '@/components/TaskDetailsDialog';
+import type { TaskFormValue } from "@/components/TaskForm";
+
 
 interface Props {
   tasks: DerivedTask[];
-  onAdd: (payload: Omit<Task, 'id'>) => void;
+  onAdd: (payload: TaskFormValue) => void;
   onUpdate: (id: string, patch: Partial<Task>) => void;
   onDelete: (id: string) => void;
 }
@@ -30,7 +32,7 @@ export default function TaskTable({ tasks, onAdd, onUpdate, onDelete }: Props) {
     setOpenForm(true);
   };
 
-  const handleSubmit = (value: Omit<Task, 'id'> & { id?: string }) => {
+  const handleSubmit = (value: TaskFormValue) => {
     if (value.id) {
       const { id, ...rest } = value as Task;
       onUpdate(id, rest);
@@ -115,6 +117,7 @@ export default function TaskTable({ tasks, onAdd, onUpdate, onDelete }: Props) {
         onSubmit={handleSubmit}
         existingTitles={existingTitles}
         initial={editing}
+        createdAt=''
       />
       <TaskDetailsDialog open={!!details} task={details} onClose={() => setDetails(null)} onSave={onUpdate} />
     </Card>
